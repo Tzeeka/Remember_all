@@ -1,3 +1,8 @@
+package Pages;
+
+import net.serenitybdd.core.pages.WebElementFacade;
+import net.thucydides.core.annotations.DefaultUrl;
+import net.thucydides.core.pages.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,16 +14,18 @@ import static java.lang.String.format;
 import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
-public class SignUpPage {
-    private WebDriver driver;
+@DefaultUrl("https://www.spotify.com/int/signup/")
+
+public class SignUpPage extends PageObject {
+ /*   private WebDriver driver;
     static WebDriverWait wait;
 
     public SignUpPage(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, 10);
     }
-
-
+*/
+   
    private By emailField = By.id("register-email");
    private By confirmEmailField = By.id("register-confirm-email");
    private By registerPasswordField = By.id("register-password");
@@ -43,53 +50,53 @@ public class SignUpPage {
    private String errorByText = "//label[@class=\"has-error\" and text()=\"%s\"]";
 
    public SignUpPage goToSignUpPage() {
-       driver.findElement(signUpPage).click();
+       find(signUpPage).click();
        return this;
    }
 
     public SignUpPage typeEmail(String email) {
-        driver.findElement(emailField).sendKeys(email);
+        find(emailField).sendKeys(email);
         return this;
     }
 
     public SignUpPage typeConfirmEmail(String email) {
-        driver.findElement(confirmEmailField).sendKeys(email);
+        find(confirmEmailField).sendKeys(email);
         return this;
     }
 
      public SignUpPage typePassword(String password) {
-        driver.findElement(registerPasswordField).sendKeys(password);
+        find(registerPasswordField).sendKeys(password);
         return this;
     }
 
     public SignUpPage typeNameField(String name) {
-        driver.findElement(nameField).sendKeys(name);
+        find(nameField).sendKeys(name);
         return this;
     }
 
     public SignUpPage setMonth(String month) {
-        driver.findElement(monthDropDown).click();
-        wait.until(visibilityOfElementLocated(xpath(format(monthDropDownOption, month)))).click();
+        find(monthDropDown).click();
+        find(xpath(format(monthDropDownOption, month))).waitUntilVisible();
         return this;
     }
 
     public SignUpPage typeDay(String day) {
-        driver.findElement(dayField).sendKeys(day);
+        find(dayField).sendKeys(day);
         return this;
     }
 
     public SignUpPage typeYear(String year) {
-        driver.findElement(yearField).sendKeys(year);
+        find(yearField).sendKeys(year);
         return this;
     }
 
     public SignUpPage setSex(String value) {
-        driver.findElement(xpath(format(sexRadioButton, value))).click();
+        find(xpath(format(sexRadioButton, value))).click();
         return this;
     }
 
     public SignUpPage setShare (boolean value) {
-        WebElement checkbox = driver.findElement(checkBox1);
+        WebElement checkbox = find(checkBox1);
         if(!checkbox.isSelected() == value) {
             checkbox.click();
         }
@@ -98,11 +105,11 @@ public class SignUpPage {
     }
 
     public void clickSignUpButton() {
-        driver.findElement(registerButton).click();
+        find(registerButton).click();
     }
 
-    public List<WebElement> getErrors() {
-        return driver.findElements(errorLabel);
+    public List<WebElementFacade> getErrors() {
+        return findAll(errorLabel);
     }
 
     public String getErrorByNumber(int number) {
@@ -110,8 +117,8 @@ public class SignUpPage {
     }
 
     public boolean isErrorVisible(String message) {
-        return driver.findElements(xpath(format(errorByText, message))).size() > 0
-                && driver.findElements(xpath(format(errorByText, message))).get(0).isDisplayed();
+        return findAll(xpath(format(errorByText, message))).size() > 0
+                && findAll(xpath(format(errorByText, message))).get(0).isDisplayed();
     }
 
 
